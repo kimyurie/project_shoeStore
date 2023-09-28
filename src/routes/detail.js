@@ -1,7 +1,16 @@
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
+
+let YellowBtn = styled.button`
+  background : ${props => props.bg};
+  color :  ${props => props.bg == 'blue' ? 'white' : 'black'};
+  padding : 10px;
+`
+
+// let NewBtn = styled.button(YellowBtn)``
+
 
 function Detail(props){
-
   let {id} = useParams(); // 현재 url의 파라미터 정보(/:id)
 
 // .find() 사용
@@ -29,6 +38,8 @@ let 찾은상품 = props.shoes.find(function(x){
 // Q. 자료의 순서가 변경되면 상세페이지도 고장나는 문제는 어떻게 해결할까요?
 //  현재 /:id 자리에 입력한 값과 영구번호가 같은 상품을 찾아서 데이터바인딩
        <div className="container">
+          <YellowBtn bg = "blue">버튼</YellowBtn>
+          <YellowBtn bg = "orange">버튼</YellowBtn>
         <div className="row">
             <div className="col-md-6">
               <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
