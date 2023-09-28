@@ -66,7 +66,10 @@ function App() {
             </div>
             </>
           </div>}/>
-          <Route path='/detail' element= {<Detail/>}/>
+          {/*  URL 파라미터(/:id)로 상세페이지 100개 만들기 */}
+          <Route path='/detail/:id' element= {<Detail shoes = {shoes} />}/>
+
+
           {/* 404페이지 */} {/* *은 이외 모든 것 */}
           <Route path='*' element= {<div>없는 페이지에요</div>}/> 
 
@@ -86,11 +89,6 @@ function App() {
           </Route>
 
       </Routes>
-
- 
-         
-    
-
     </div>
   );
 }
