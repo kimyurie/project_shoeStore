@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import styled from "styled-components";
+import { Nav } from "react-bootstrap";
 
 // let YellowBtn = styled.button`
 //   background : ${props => props.bg};
@@ -15,6 +16,11 @@ function Detail(props){
   let [count, setCount] = useState(0)
   let [alert, setAlert] = useState(true)
   let [num, setNum] = useState('') 
+
+  // 탭 상태 저장해둘 state 
+  let [탭, 탭변경] = useState(0) // 0이면 0번째 내용, 1이면 1번째, 2이면 2번째
+
+
 
   useEffect(() => {
     // 컴포넌트 mount(페이지 장착), update 시 여기 코드 실행
@@ -110,8 +116,38 @@ Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. 
               <button className="btn btn-danger">주문하기</button> 
             </div>
         </div>
+
+          {/* 탭 UI */}
+          <Nav variant="tabs"  defaultActiveKey="link0">
+              <Nav.Item>
+                <Nav.Link onClick ={() => 탭변경(0)} eventKey="link0">버튼0</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link onClick ={() => 탭변경(1)} eventKey="link1">버튼1</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link onClick ={() => 탭변경(2)} eventKey="link2">버튼2</Nav.Link>
+              </Nav.Item>
+          </Nav>
+          <TabContent 탭 = {탭}/>
       </div> 
     )
   }
 
+  function TabContent(props){ // props 대신 {탭}도 가능!
+    if (props.탭 == 0){
+      return <div>내용0</div>
+    }
+    if (props.탭 == 1){
+      return <div>내용1</div>
+    }
+    if (props.탭 == 2){
+      return <div>내용2</div> 
+    }  
+    // 위와 같은 if문 대신 아래와 같이 array 자료형으로도 가능
+  // [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]
+  } 
+
+
+ 
 export default Detail;
