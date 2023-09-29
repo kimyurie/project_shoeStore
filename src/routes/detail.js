@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import styled from "styled-components";
 import { Nav } from "react-bootstrap";
@@ -13,13 +13,13 @@ import { Nav } from "react-bootstrap";
 
 
 function Detail(props){
+
   let [count, setCount] = useState(0)
   let [alert, setAlert] = useState(true)
   let [num, setNum] = useState('') 
 
   // 탭 상태 저장해둘 state 
   let [탭, 탭변경] = useState(0) // 0이면 0번째 내용, 1이면 1번째, 2이면 2번째
-
 
 
   useEffect(() => {
@@ -140,11 +140,13 @@ Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. 
                 <Nav.Link onClick ={() => 탭변경(2)} eventKey="link2">버튼2</Nav.Link>
               </Nav.Item>
           </Nav>
-          <TabContent 탭 = {탭}/>
+          <TabContent 탭 = {탭}/> 
       </div> 
-
     )
   }
+
+
+
 
   // function TabContent(props){ // props 대신 {탭}도 가능!
   //   if (props.탭 == 0){
@@ -159,7 +161,7 @@ Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. 
   // } 
 
     
-  function TabContent({탭}){
+  function TabContent({탭, shoes}){
     // 탭 state가 변할 때 end 부착
     let [fade, setFade] = useState('') 
 
@@ -171,7 +173,6 @@ Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. 
         setFade('') // 탭 state가 변할 때 end 뗐다가 부착
       }
     }, [탭])
-
     return (<div className={'start ' + fade}> {/* 전환 애니메이션  */}
      {/* 위와 같은 if문 대신 아래와 같이 array 자료형으로도 가능 */}
       { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭] }  {/* 탭 클릭에 따라 내용 바뀜 */}

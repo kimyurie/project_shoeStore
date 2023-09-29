@@ -8,14 +8,20 @@ import data from './data';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import Detail from './routes/detail';
 import axios from 'axios';
+import Cart from './routes/Cart';
 
 function App() {
   // 상품 데이터 넣기 - 많은 데이터는 따로 data.js 에 저장해서 불러오는 방식으로
   // use~ => 훅 (유용한 것들 들어있는 함수같은거)
   let [shoes, setShoes] = useState(data);
+
   let navigate = useNavigate();  // 페이지 이동 도와줌
   let [num, setNum] = useState(0); // 버튼 클릭 횟수
   let [load, setLoad] = useState(false); /// 로딩중 문구
+
+  let [재고] = useState([10, 11, 12]); 
+
+
 
   return (
     <div className="App">
@@ -117,14 +123,15 @@ function App() {
               // // fetch로도 get,post요청 가능한데 axios가 더편리
               // fetch('https://codingapple1.github.io/shop/data2.json')
 
-
-
-
             }}>더보기</button>
             </>
           </div>}/>
           {/*  URL 파라미터(/:id)로 상세페이지 100개 만들기 */}
-          <Route path='/detail/:id' element= {<Detail shoes = {shoes} />}/>
+          <Route path='/detail/:id' element= {
+               <Detail shoes = {shoes} />
+          }/>
+
+          <Route path='/cart' element = {<Cart/>}/>
 
 
           {/* 404페이지 */} {/* *은 이외 모든 것 */}
