@@ -1,3 +1,24 @@
+/* 전환 애니메이션 주는 법 */
+/* 1. 애니메이션 동작 전 스타일을 담을 className 만들기 
+2. 애니메이션 동작 후 스타일을 담을 className 만들기 
+3. transition 속성도 추가
+4. 원할 때 2번 탈부착 */
+
+/* 애니메이션 동작 전 스타일 담을 클래스 */
+.start {
+  opacity : 0;
+}
+
+/* 애니메이션 동작 후 스타일 담을 클래스 */
+.end {
+  opacity : 1;
+  transition: opacity  0.5s;
+}
+
+
+
+
+
 /* 오염방지하려면 App.module.css */
 .main-bg{
   height: 300px;
@@ -46,3 +67,4 @@
     transform: rotate(360deg);
   }
 }
+

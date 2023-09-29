@@ -62,6 +62,17 @@ let 찾은상품 = props.shoes.find(function(x){
   return x.id == id;
 });
 
+let [fade2, setFade2] = useState('')
+
+useEffect(() => {
+  setFade2('end')
+
+  return () => {
+    setFade2('')
+  }
+}, [])
+
+
 
     return (
       // <div className="container">
@@ -80,7 +91,7 @@ let 찾은상품 = props.shoes.find(function(x){
 
 // Q. 자료의 순서가 변경되면 상세페이지도 고장나는 문제는 어떻게 해결할까요?
 //  현재 /:id 자리에 입력한 값과 영구번호가 같은 상품을 찾아서 데이터바인딩
-       <div className="container">
+      <div className={'container start ' + fade2}>
           {/* <YellowBtn bg = "blue">버튼</YellowBtn>
           <YellowBtn bg = "orange">버튼</YellowBtn> */}
 
@@ -131,23 +142,44 @@ Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. 
           </Nav>
           <TabContent 탭 = {탭}/>
       </div> 
+
     )
   }
 
-  function TabContent(props){ // props 대신 {탭}도 가능!
-    if (props.탭 == 0){
-      return <div>내용0</div>
-    }
-    if (props.탭 == 1){
-      return <div>내용1</div>
-    }
-    if (props.탭 == 2){
-      return <div>내용2</div> 
-    }  
-    // 위와 같은 if문 대신 아래와 같이 array 자료형으로도 가능
-  // [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]
-  } 
+  // function TabContent(props){ // props 대신 {탭}도 가능!
+  //   if (props.탭 == 0){
+  //     return <div>내용0</div>
+  //   }
+  //   if (props.탭 == 1){
+  //     return <div>내용1</div>
+  //   }
+  //   if (props.탭 == 2){
+  //     return <div>내용2</div> 
+  //   }  
+  // } 
 
+    
+  function TabContent({탭}){
+    // 탭 state가 변할 때 end 부착
+    let [fade, setFade] = useState('') 
+
+    useEffect(() => {
+      // fade라는 state를 end로 바꿔주세요~
+      setTimeout(() => {setFade('end')}, 100) // 제렌더링 떄문에 위아래 시간차 둬야됌
+
+      return () => { // 위 useEffect 실행되기 전 수행
+        setFade('') // 탭 state가 변할 때 end 뗐다가 부착
+      }
+    }, [탭])
+
+    return (<div className={'start ' + fade}> {/* 전환 애니메이션  */}
+     {/* 위와 같은 if문 대신 아래와 같이 array 자료형으로도 가능 */}
+      { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭] }  {/* 탭 클릭에 따라 내용 바뀜 */}
+    </div>)
+  }
+
+// 오늘의 숙제 : 
+// Detail 컴포넌트 로드시 투명도가 0에서 1로 서서히 증가하는 애니메이션을 주려면?
 
  
 export default Detail;
