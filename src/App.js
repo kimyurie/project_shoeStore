@@ -34,7 +34,7 @@ function App() {
             <Link to="/detail">상세페이지</Link> */}
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
             {/* navigate(-1)은 뒤로가기 1은 앞으로 가기 */}
-            <Nav.Link onClick={() => {navigate('/detail')}}> Detail</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/cart')}}> Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>

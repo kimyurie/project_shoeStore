@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 // import styled from "styled-components";
 import { Nav } from "react-bootstrap";
+import { addItem } from "../store/store";
+import { useDispatch } from "react-redux";
 
 // let YellowBtn = styled.button`
 //   background : ${props => props.bg};
@@ -11,9 +13,7 @@ import { Nav } from "react-bootstrap";
 
 // let NewBtn = styled.button(YellowBtn)``
 
-
 function Detail(props){
-
   let [count, setCount] = useState(0)
   let [alert, setAlert] = useState(true)
   let [num, setNum] = useState('') 
@@ -73,6 +73,7 @@ useEffect(() => {
 }, [])
 
 
+let dispatch = useDispatch(); // store.js로 요청 보내주는 함수
 
     return (
       // <div className="container">
@@ -124,7 +125,10 @@ Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. 
               <h4 className="pt-5">{찾은상품.title}</h4>
               <p>{찾은상품.content}</p>
               <p>{찾은상품.price}원</p>
-              <button className="btn btn-danger">주문하기</button> 
+              {/* 주문버튼누르면 state에 새로운 상품추가 */}
+              <button className="btn btn-danger" onClick={() => {
+                  dispatch(addItem({ id: 1, name: "Red Knit", count: 1 }))
+              }}>주문하기</button> 
             </div>
         </div>
 
