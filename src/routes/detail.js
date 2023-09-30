@@ -22,6 +22,9 @@ function Detail(props){
   let [탭, 탭변경] = useState(0) // 0이면 0번째 내용, 1이면 1번째, 2이면 2번째
 
 
+
+
+
   useEffect(() => {
     // 컴포넌트 mount(페이지 장착), update 시 여기 코드 실행
      // useEffect 안에 있는 코드는 html 렌더링 후에 동작한다 -> 더 효율적!
@@ -55,6 +58,8 @@ useEffect(() => {
 
 
   let {id} = useParams(); // 현재 url의 파라미터 정보(/:id)
+  
+
 
 // .find() 사용
 // https://devinserengeti.tistory.com/20 참고
@@ -74,6 +79,38 @@ useEffect(() => {
 
 
 let dispatch = useDispatch(); // store.js로 요청 보내주는 함수
+
+
+
+
+
+
+
+
+ // 누가 detail 페이지 접속하면
+ useEffect(() => {
+  // 그 페이지에 보이는 상품id 가져와서
+  // localStorage에 watched 항목에 추가
+  let 꺼낸거 = localStorage.getItem('watched')
+  // JSON  -> array/object
+  꺼낸거 = JSON.parse(꺼낸거)
+  꺼낸거.push(찾은상품.id)
+  // 상품id가 이미 [ ]에 있으면 추가하지 말아주세요 (중복제거)
+  꺼낸거 = new Set(꺼낸거)
+  꺼낸거 = Array.from(꺼낸거) // set -> array 변환
+  // array/object -> JSON 
+  localStorage.setItem('watched', JSON.stringify(꺼낸거));
+},[])
+
+
+
+
+
+
+
+
+
+
 
     return (
       // <div className="container">

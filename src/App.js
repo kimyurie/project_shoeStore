@@ -11,6 +11,41 @@ import axios from 'axios';
 import Cart from './routes/Cart';
 
 function App() {
+  // 상세페이지 들어가면 현재 페이지에 있는 상품 id를 
+  // localStorage에 저장되게 만들어오면 됩니다
+
+  // 누가 detail 페이지 접속하면
+  // 그 페이지에 보이는 상품id 가져와서
+  // localStorage에 watched 항목에 추가
+
+  useEffect(()=>{
+    localStorage.setItem('watched', JSON.stringify( [] ))
+
+    // 응용사항 - 미완
+    // 새로고침해도 localStorage 안 항목 사라지지 않게
+    // let 꺼낸거 = localStorage.getItem('watched')
+    // 꺼낸거 = JSON.parse(꺼낸거)
+    // 꺼낸거 = new Set(꺼낸거)
+    // 꺼낸거 = Array.from(꺼낸거)
+    // localStorage.setItem('watched', JSON.stringify(꺼낸거))
+    
+  },[]) 
+  
+
+
+  // // localStorage에 array/object 자료를 저장하려면
+  // // array/object -> JSON 이렇게 변환해서 저장
+  // let obj = {name : 'kim'}
+  // localStorage.setItem('data', JSON.stringify(obj))
+  // let 꺼낸거 = localStorage.getItem('data')
+  // // JSON  -> array/object
+  // console.log( JSON.parse(꺼낸거));
+
+
+
+
+
+
   // 상품 데이터 넣기 - 많은 데이터는 따로 data.js 에 저장해서 불러오는 방식으로
   // use~ => 훅 (유용한 것들 들어있는 함수같은거)
   let [shoes, setShoes] = useState(data);
@@ -21,7 +56,7 @@ function App() {
 
   let [재고] = useState([10, 11, 12]); 
 
-
+// 새로고침했을 때 state가 초기값 돌아가는 거 막으려면 localStorage 사용
 
   return (
     <div className="App">
@@ -35,6 +70,8 @@ function App() {
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
             {/* navigate(-1)은 뒤로가기 1은 앞으로 가기 */}
             <Nav.Link onClick={() => {navigate('/cart')}}> Cart</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/detail/0')}}> Detail</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/detail/1')}}> Detail1</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
