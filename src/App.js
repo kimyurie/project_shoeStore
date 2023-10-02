@@ -3,7 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {CardGroup, Container, Nav, Navbar} from 'react-bootstrap';
 import bg from './img/bg.png';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useDeferredValue, useEffect, useState, useTransition } from 'react';
 import data from './data';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import axios from 'axios';
@@ -19,6 +19,7 @@ const Detail = lazy(() => import('./routes/detail'));
 const Cart = lazy(() => import('./routes/Cart'));
 
 
+let a = new Array(10000).fill(0)
 
 function App() {
   // 상세페이지 들어가면 현재 페이지에 있는 상품 id를 
@@ -90,12 +91,42 @@ let result = useQuery('작명', () =>
 
 
 
+let [name, setName] = useState('')
 
 
+
+
+// useTransition - 아래 성능저하 개선 시키기
+// isPending은 startTransition이 처리중일 때 true로 변함
+let [isPending, 늦게처리] = useTransition()
+// // useDeferredValue써도 느린 컴포넌트 성능 향상 가능
+// // -> state 변동 사항 생기면 늦게 처리(위와 동일한 기능)
+// let state = useDeferredValue(state)
 
 
   return (
     <div className="App">
+
+{/* 유저가 뭐 입력하면 위 name에 저장되게 하기 */}
+     <input onChange={(e) => {
+      // 아래 성능저하 개선
+        늦게처리(() => {
+          setName(e.target.value) // 이걸 다른 코드들보다 나중에 처리해줌
+        })
+      }}/>
+     {
+      isPending ? '로딩중' :
+      // 성능저하 일으키기
+        a.map(() => {
+          return <div>{name}</div>
+        })
+     }
+
+
+
+
+
+
        <Navbar bg="light" data-bs-theme="light">
         <Container>
           <Navbar.Brand href="#home">Shop</Navbar.Brand>

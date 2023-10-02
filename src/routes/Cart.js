@@ -4,20 +4,6 @@ import { changeName, increase } from "../store/userSlice";
 import { addCount } from "../store/store";
 import { memo, useState } from "react";
 
-// 자식 컴포넌트 재랜더링 막기
-// 꼭 필요할 때만 재랜더링하려면 memo
-// memo의 원리 : props가 변할 때만 재랜더링해줌
-let Child = memo(function(){
-  console.log('재랜더링됨')
-  return <div>자식임</div>
-})
-
-
-// useMemo 참고만
-function 함수(){
-  return 반복문10억번 돌린결과
-}
-
 
 
 
@@ -33,9 +19,6 @@ function 함수(){
 
 function Cart() {
 
-  // useMemo 사용법 - useMemo는 컴포넌트 렌더링 시 1회만 실행해줌
-  // useEffect랑 비슷
-  let result = useMemo(() => {return 함수()})
 
 
 
@@ -46,15 +29,9 @@ function Cart() {
   let state = useSelector((state) => state);
   let dispatch = useDispatch(); // store.js로 요청 보내주는 함수
 
-  let [count, setCount] = useState(0)
 
   return (
     <div>
-      <Child></Child> 
-      <button onClick={() => { setCount(count + 1)}}>+</button>
-
-
-
 
       {/* 버튼 누르면 age가 +1되는 기능 */}
       <h6>
