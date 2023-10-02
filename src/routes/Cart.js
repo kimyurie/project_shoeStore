@@ -2,6 +2,27 @@ import { Button, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeName, increase } from "../store/userSlice";
 import { addCount } from "../store/store";
+import { memo, useState } from "react";
+
+// 자식 컴포넌트 재랜더링 막기
+// 꼭 필요할 때만 재랜더링하려면 memo
+// memo의 원리 : props가 변할 때만 재랜더링해줌
+let Child = memo(function(){
+  console.log('재랜더링됨')
+  return <div>자식임</div>
+})
+
+
+// useMemo 참고만
+function 함수(){
+  return 반복문10억번 돌린결과
+}
+
+
+
+
+
+
 
 //Redux 사용 시 컴포넌트들이 props 없이 state 공유 가능
 // 부모 자식간 props 전송 필요없어짐
@@ -11,6 +32,13 @@ import { addCount } from "../store/store";
 // 그냥 useState() 쓰기
 
 function Cart() {
+
+  // useMemo 사용법 - useMemo는 컴포넌트 렌더링 시 1회만 실행해줌
+  // useEffect랑 비슷
+  let result = useMemo(() => {return 함수()})
+
+
+
   //  // Redux store의 state 꺼내는 법
   // let a = useSelector((state) => {return state.user}) // 여기서 state는 store 안에 있던 모든 state가 된다
   // console.log(a)
@@ -18,8 +46,16 @@ function Cart() {
   let state = useSelector((state) => state);
   let dispatch = useDispatch(); // store.js로 요청 보내주는 함수
 
+  let [count, setCount] = useState(0)
+
   return (
     <div>
+      <Child></Child> 
+      <button onClick={() => { setCount(count + 1)}}>+</button>
+
+
+
+
       {/* 버튼 누르면 age가 +1되는 기능 */}
       <h6>
         {state.user.name} {state.user.age}의 장바구니
