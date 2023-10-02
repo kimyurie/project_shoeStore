@@ -21,7 +21,13 @@ const Cart = lazy(() => import('./routes/Cart'));
 
 let a = new Array(10000).fill(0)
 
+
+
+
+
 function App() {
+
+
   // 상세페이지 들어가면 현재 페이지에 있는 상품 id를 
   // localStorage에 저장되게 만들어오면 됩니다
 
@@ -95,38 +101,28 @@ let [name, setName] = useState('')
 
 
 
+let [count, setCount] = useState(0);
+let [age, setAge] = useState(20);
 
-// useTransition - 아래 성능저하 개선 시키기
-// isPending은 startTransition이 처리중일 때 true로 변함
-let [isPending, 늦게처리] = useTransition()
-// // useDeferredValue써도 느린 컴포넌트 성능 향상 가능
-// // -> state 변동 사항 생기면 늦게 처리(위와 동일한 기능)
-// let state = useDeferredValue(state)
-
+// 나이가 22살까지만 오르게 기능개발
+useEffect(() => { 
+  // async 함수인 setCount()는 오래걸리면 다음코드부터 실행되는 문제
+  // useEffect 활용해 해결
+  if (count != 0 && count < 3){
+    setAge(age+1)
+  }
+}, [count])
 
   return (
     <div className="App">
 
-{/* 유저가 뭐 입력하면 위 name에 저장되게 하기 */}
-     <input onChange={(e) => {
-      // 아래 성능저하 개선
-        늦게처리(() => {
-          setName(e.target.value) // 이걸 다른 코드들보다 나중에 처리해줌
-        })
-      }}/>
-     {
-      isPending ? '로딩중' :
-      // 성능저하 일으키기
-        a.map(() => {
-          return <div>{name}</div>
-        })
-     }
-
-
-
-
-
-
+      <div>
+        <div>안녕하십니까 전 {age}</div>
+        <button onClick={() => {
+            setCount(count+1);
+        }}>누르면한살먹기</button>
+      </div>
+      
        <Navbar bg="light" data-bs-theme="light">
         <Container>
           <Navbar.Brand href="#home">Shop</Navbar.Brand>
