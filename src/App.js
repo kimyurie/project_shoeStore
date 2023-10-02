@@ -9,6 +9,7 @@ import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
 import Detail from './routes/detail';
 import axios from 'axios';
 import Cart from './routes/Cart';
+import { useQuery } from 'react-query';
 
 function App() {
   // 상세페이지 들어가면 현재 페이지에 있는 상품 id를 
@@ -53,10 +54,36 @@ function App() {
   let navigate = useNavigate();  // 페이지 이동 도와줌
   let [num, setNum] = useState(0); // 버튼 클릭 횟수
   let [load, setLoad] = useState(false); /// 로딩중 문구
-
   let [재고] = useState([10, 11, 12]); 
 
 // 새로고침했을 때 state가 초기값 돌아가는 거 막으려면 localStorage 사용
+
+
+
+
+// <실시간 데이터가 중요하면 react-query> 서버에서 유저이름 가져와 보여주기
+let result = useQuery('작명', () => 
+  axios.get('https://codingapple1.github.io/userdata.json').then((a) => {
+    console.log('요청됨') // 장점2. 틈만나면 자동으로 재요청(refetch)해줌 ex)실시간 sns, 코인거래소 등에 유용
+  return a.data
+  }),
+  {staleTime : 2000} // refetch 간격 설정 가능
+)
+// 사용 시 장점 1. 성공/실패/로딩중 쉽게 파악가능
+// result.data
+// result.isLoading
+// result.error
+
+// 장점2. 틈만나면 자동으로 재요청(refetch)해줌
+// 장점3. 요청 실패시 재시도 알아서 해줌
+// 장점4. ajax로 가져온 결과는 state 공유 필요없음
+// 장점5. ajax 결과 캐싱기능
+
+
+
+
+
+
 
   return (
     <div className="App">
@@ -73,6 +100,12 @@ function App() {
             <Nav.Link onClick={() => {navigate('/detail/0')}}> Detail</Nav.Link>
             <Nav.Link onClick={() => {navigate('/detail/1')}}> Detail1</Nav.Link>
           </Nav>
+          <Nav className='ms-auto'>
+            { result.isLoading && '로딩중' }{/* 로딩중일때 '로딩중입니다' 보여주고 싶으면 */}
+            { result.error && '에러남'}
+            { result.data && result.data.name }
+          </Nav>  
+
         </Container>
       </Navbar>
 
