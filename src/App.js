@@ -3,13 +3,22 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {CardGroup, Container, Nav, Navbar} from 'react-bootstrap';
 import bg from './img/bg.png';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import data from './data';
 import {Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom';
-import Detail from './routes/detail';
 import axios from 'axios';
-import Cart from './routes/Cart';
+
 import { useQuery } from 'react-query';
+
+// import Detail from './routes/detail';
+// import Cart from './routes/Cart';
+
+// lazy import => ("Detail 컴포넌트가 필요해지면 import 해주세요")
+// 첫 페이지 로딩속도 향상시킬 수 있음
+const Detail = lazy(() => import('./routes/detail'));
+const Cart = lazy(() => import('./routes/Cart'));
+
+
 
 function App() {
   // 상세페이지 들어가면 현재 페이지에 있는 상품 id를 
@@ -109,6 +118,10 @@ let result = useQuery('작명', () =>
         </Container>
       </Navbar>
 
+
+
+{/* lazy 사용시 컴포넌트 지연시간 발생 시 suspense import 해줌 */}
+      <Suspense fallback={<div>로딩중임</div>}>
       {/* 라우트는 페이지! 각 페이지도 컴포넌트로 만들면 좋음*/}
       <Routes>
           <Route path='/' element={<div>
@@ -196,9 +209,12 @@ let result = useQuery('작명', () =>
             }}>더보기</button>
             </>
           </div>}/>
+        
           {/*  URL 파라미터(/:id)로 상세페이지 100개 만들기 */}
           <Route path='/detail/:id' element= {
+            
                <Detail shoes = {shoes} />
+           
           }/>
 
           <Route path='/cart' element = {<Cart/>}/>
@@ -222,7 +238,7 @@ let result = useQuery('작명', () =>
             <Route path='two' element = {<p>생일기념 쿠폰받기</p>}/>
           </Route>
       </Routes>
-
+    </Suspense>
 
           {
             load == true ? <h4>로딩중입니다.</h4> : null
